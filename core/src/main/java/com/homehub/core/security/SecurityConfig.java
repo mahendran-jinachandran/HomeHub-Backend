@@ -15,10 +15,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-
     private final MyUserDetailsService userDetailsService;
 
-    SecurityConfig(final MyUserDetailsService userDetailsService) {
+    public SecurityConfig(final MyUserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -30,9 +29,11 @@ public class SecurityConfig {
                 .formLogin(formLogin -> {
                     formLogin.defaultSuccessUrl("/home");
                 }) // need to add our own login url endPoint
-                .authorizeHttpRequests(registration -> {
-                    registration.requestMatchers("/signup").permitAll();
-                    registration.anyRequest().authenticated();
+                .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/admin/**").hasRole("ADMIN");
+                    auth.requestMatchers("/user/**").hasAnyRole("ADMIN", "USER");
+                    auth.requestMatchers("/signup").permitAll();
+                    auth.anyRequest().authenticated();
                 })
                 .authenticationProvider(authenticationProvider())
                 .build();

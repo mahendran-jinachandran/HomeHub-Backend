@@ -17,6 +17,7 @@ public class LoginController {
 
     @PutMapping("/signup")
     public Users register(@RequestBody Users user) {
+        user.setRole("ADMIN");
         return loginService.register(user);
     }
 }
