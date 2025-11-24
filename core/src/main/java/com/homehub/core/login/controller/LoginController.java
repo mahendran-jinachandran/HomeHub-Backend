@@ -1,8 +1,9 @@
 package com.homehub.core.login.controller;
 
+import com.homehub.core.login.entity.Users;
 import com.homehub.core.login.service.LoginService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -14,9 +15,9 @@ public class LoginController {
         this.loginService = loginService;
     }
 
-    @PostMapping("/signup")
-    public void register(String username, String password) {
-        loginService.register(username, password);
+    @PutMapping("/signup")
+    public Users register(@RequestBody Users user) {
+        return loginService.register(user);
     }
 }
 
