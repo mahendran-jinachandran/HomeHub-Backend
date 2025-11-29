@@ -22,7 +22,6 @@ public class LoginService {
     }
 
     public Users register(Users user) {
-        LOG.info(() -> "registering user");
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return loginRepo.save(user);
     }
