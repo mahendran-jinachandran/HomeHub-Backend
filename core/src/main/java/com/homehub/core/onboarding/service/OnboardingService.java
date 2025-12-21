@@ -1,12 +1,12 @@
 package com.homehub.core.onboarding.service;
 
-import com.homehub.core.onboarding.dto.CreateOrganisationRequest;
+import com.homehub.core.house.entity.House;
+import com.homehub.core.house.service.HouseService;
+import com.homehub.core.onboarding.dto.CreateOrganisationDTO;
 import com.homehub.core.onboarding.dto.CreateOrganisationResponse;
 import com.homehub.core.organisation.entity.Organisation;
 import com.homehub.core.organisation.entity.OrganisationType;
 import com.homehub.core.organisation.service.OrganisationService;
-import com.homehub.core.house.entity.House;
-import com.homehub.core.house.service.HouseService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,17 +22,14 @@ public class OnboardingService {
     }
 
     @Transactional
-    public CreateOrganisationResponse startOrganisation(Long currentUserId, CreateOrganisationRequest req) {
+    public CreateOrganisationResponse startOrganisation(Long currentUserId, CreateOrganisationDTO req) {
         OrganisationType type = req.getType();
 
         // Create organisation + SUPER_ADMIN membership
         Organisation org = organisationService.createOrganisation(currentUserId, req.getOrganisationName(), type);
-        System.out.println("Starting in Service");
         if (type == OrganisationType.SINGLE) {
             // Always create exactly one house and make creator house admin
             House house = houseService.createSingleHouse(org.getId(), currentUserId);
-            System.out.println(house.getName());
-            System.out.println("Printing name of the house Onboarding Service");
             return new CreateOrganisationResponse(org.getId(), type, house.getId(), null);
         }
 

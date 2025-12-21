@@ -44,8 +44,6 @@ public class LoginService {
 
         String token = jwtUtil.generateToken(userName);
 
-        System.out.println(token);
-
         return new AuthResult(token, user.getId(), user.getEmail(), userName);
     }
 }

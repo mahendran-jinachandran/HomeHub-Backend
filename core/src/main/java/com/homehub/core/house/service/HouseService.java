@@ -34,11 +34,6 @@ public class HouseService {
         hm.setRole(HouseRole.HOUSE_ADMIN);
 
         houseMemberRepository.save(hm);
-        System.out.println(house.getName());
-        System.out.println("Printing name of the house House Service");
-
-        System.out.println(saved.getName());
-        System.out.println("Printing name of the house House Service");
         return saved;
     }
 
