@@ -1,6 +1,7 @@
 package com.homehub.core.login.controller;
 
 import com.homehub.core.login.dto.AuthResult;
+import com.homehub.core.login.dto.LoginRequestDTO;
 import com.homehub.core.login.dto.SignupRequestDTO;
 import com.homehub.core.login.entity.Users;
 import com.homehub.core.login.service.LoginService;
@@ -11,7 +12,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,8 +26,8 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public AuthResult login(@RequestParam String userName, @RequestParam String password) {
-        return loginService.login(userName, password);
+    public AuthResult login(@Valid @RequestBody LoginRequestDTO user) {
+        return loginService.login(user.getUserName(), user.getPassword());
     }
 
     @PutMapping("/signup")
