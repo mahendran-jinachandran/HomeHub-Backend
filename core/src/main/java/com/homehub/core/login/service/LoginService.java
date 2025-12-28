@@ -22,9 +22,12 @@ public class LoginService {
         this.jwtUtil = jwtUtil;
     }
 
-    public Users register(SignupRequestDTO user) {
+    public AuthResult register(SignupRequestDTO user) {
         Users mappedUser = SignupMapper.toDTO(user);
-        return loginRepo.save(mappedUser);
+        Users savedUser = loginRepo.save(mappedUser);
+
+        String token = jwtUtil.generateToken(mappedUser.getUserName());
+        return new AuthResult(token, savedUser.getId(), savedUser.getEmail(), savedUser.getUserName());
     }
 
     public Users findByUserName(String username) {
