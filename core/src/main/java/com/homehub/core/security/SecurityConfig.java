@@ -34,6 +34,7 @@ public class SecurityConfig {
                     auth.requestMatchers("/signup").permitAll();
                     auth.requestMatchers("/login").permitAll();
                     auth.requestMatchers("/admin/**").hasRole("ADMIN");
+                    auth.requestMatchers("/api/onboarding/organisation").hasRole("ADMIN");
                     auth.requestMatchers("/user/**").hasAnyRole("ADMIN", "USER");
                     auth.anyRequest().authenticated();
                 })

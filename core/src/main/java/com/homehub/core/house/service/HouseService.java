@@ -12,29 +12,20 @@ import org.springframework.transaction.annotation.Transactional;
 public class HouseService {
 
     private final HouseRepository houseRepository;
-    private final HouseMemberRepository houseMemberRepository;
+//    private final HouseMemberRepository houseMemberRepository;
 
-    public HouseService(HouseRepository houseRepository, HouseMemberRepository houseMemberRepository) {
+    public HouseService(HouseRepository houseRepository) {
         this.houseRepository = houseRepository;
-        this.houseMemberRepository = houseMemberRepository;
+//        this.houseMemberRepository = houseMemberRepository;
     }
 
     @Transactional
-    public House createSingleHouse(Long organisationId, Long creatorUserId) {
+    public House createSingleHouse(Long organisationId, Long creatorUserId, String houseName) {
         House house = new House();
         house.setOrganisationId(organisationId);
-        house.setName("My House");
+        house.setName(houseName);
         house.setCreatedByUserId(creatorUserId);
-
-        House saved = houseRepository.save(house);
-
-        HouseMember hm = new HouseMember();
-        hm.setHouseId(saved.getId());
-        hm.setUserId(creatorUserId);
-        hm.setRole(HouseRole.HOUSE_ADMIN);
-
-        houseMemberRepository.save(hm);
-        return saved;
+        return houseRepository.save(house);
     }
 
     @Transactional

@@ -15,10 +15,14 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true)
     private String userName;
 
     @JsonIgnore
     private String password;
+
+    @Column(unique = true)
     private String email;
     private String role;
     private String status;

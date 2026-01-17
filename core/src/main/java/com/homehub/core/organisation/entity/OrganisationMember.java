@@ -29,7 +29,7 @@ public class OrganisationMember {
     @Column(nullable = false)
     private OffsetDateTime createdAt = OffsetDateTime.now();
 
-    @Column(name = "invited_by_user_id")
+    @Column(name = "invited_by_user_id", nullable = false)
     private Long invitedByUserId;
 
 }
