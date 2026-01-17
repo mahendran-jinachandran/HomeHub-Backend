@@ -4,9 +4,11 @@ import com.homehub.core.login.dto.AuthResult;
 import com.homehub.core.login.dto.SignupRequestDTO;
 import com.homehub.core.login.entity.Users;
 import com.homehub.core.login.exception.InvalidCredentialsException;
+import com.homehub.core.login.exception.UserAlreadyExistsException;
 import com.homehub.core.login.mapper.SignupMapper;
 import com.homehub.core.login.repo.LoginRepo;
 import com.homehub.core.security.JwtUtil;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,15 @@ public class LoginService {
     }
 
     public AuthResult register(SignupRequestDTO user) {
+
+        if(loginRepo.existsByUserName(user.getUserName())) {
+            throw new UserAlreadyExistsException(user.getUserName());
+        }
+
+        if(loginRepo.existsByEmail(user.getEmail())) {
+            throw new UserAlreadyExistsException(user.getEmail());
+        }
+
         Users mappedUser = SignupMapper.toDTO(user);
         Users savedUser = loginRepo.save(mappedUser);
 

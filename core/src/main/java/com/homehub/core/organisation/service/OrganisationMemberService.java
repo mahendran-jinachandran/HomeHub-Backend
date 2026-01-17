@@ -19,7 +19,7 @@ public class OrganisationMemberService {
 
         OrganisationMember member = new OrganisationMember();
         member.setOrganisationId(orgId);
-        member.setUserId(creatorUserId);
+        member.setUserId(userId);
         member.setRole(role);
 
        return organisationMemberRepository.save(member);

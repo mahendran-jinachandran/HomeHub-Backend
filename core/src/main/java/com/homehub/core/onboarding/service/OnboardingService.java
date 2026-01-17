@@ -8,6 +8,7 @@ import com.homehub.core.house.service.HouseService;
 import com.homehub.core.onboarding.dto.CreateOrganisationDTO;
 import com.homehub.core.onboarding.dto.CreateOrganisationResponse;
 import com.homehub.core.organisation.entity.Organisation;
+import com.homehub.core.organisation.entity.OrganisationRole;
 import com.homehub.core.organisation.entity.OrganisationType;
 import com.homehub.core.organisation.service.OrganisationMemberService;
 import com.homehub.core.organisation.service.OrganisationService;
@@ -36,7 +37,7 @@ public class OnboardingService {
 
         // Create organisation + SUPER_ADMIN membership
         Organisation org = organisationService.createOrganisation(currentUserId, req.getOrganisationName(), type);
-        organisationMemberService.createOrganisationMember(org.getId(),org.getCreatedByUserId(),)
+        organisationMemberService.createOrganisationMember(org.getId(),org.getCreatedByUserId(), OrganisationRole.MEMBER);
         if (type == OrganisationType.SINGLE) {
 
             // Always create exactly one house and make creator house admin

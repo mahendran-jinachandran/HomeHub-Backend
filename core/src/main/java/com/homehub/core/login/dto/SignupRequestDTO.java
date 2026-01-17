@@ -1,7 +1,9 @@
 package com.homehub.core.login.dto;
 
+import com.homehub.core.organisation.entity.OrganisationRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -19,4 +21,7 @@ public class SignupRequestDTO {
     @NotBlank(message = "Email is required")
     @Email(message = "Email should be a valid one")
     private String email;
+
+    @NotNull
+    private OrganisationRole role;
 }

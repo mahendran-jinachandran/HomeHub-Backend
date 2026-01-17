@@ -1,10 +1,9 @@
 package com.homehub.core.login.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
+import com.homehub.core.organisation.entity.OrganisationRole;
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.time.LocalDate;
 
 @Data
@@ -24,8 +23,13 @@ public class Users {
 
     @Column(unique = true)
     private String email;
-    private String role;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private OrganisationRole role;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
+
     private LocalDate created_at;
     private LocalDate updated_at;
 }

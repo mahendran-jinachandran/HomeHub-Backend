@@ -2,6 +2,7 @@ package com.homehub.core.login.mapper;
 
 
 import com.homehub.core.login.dto.SignupRequestDTO;
+import com.homehub.core.login.entity.UserStatus;
 import com.homehub.core.login.entity.Users;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -16,10 +17,10 @@ public class SignupMapper {
         user.setUserName(signupRequestDTO.getUserName());
         user.setEmail(signupRequestDTO.getEmail());
         user.setPassword(bCryptPasswordEncoder.encode(signupRequestDTO.getPassword()));
-        user.setRole("ADMIN");
+        user.setRole(signupRequestDTO.getRole());
         user.setCreated_at(LocalDate.now());
         user.setUpdated_at(LocalDate.now());
-        user.setStatus("ACTIVE");
+        user.setStatus(UserStatus.ACTIVE);
         return user;
     }
 }
