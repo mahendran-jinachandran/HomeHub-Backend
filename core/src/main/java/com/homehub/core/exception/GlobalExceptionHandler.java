@@ -1,4 +1,4 @@
-package com.homehub.core.login.exception;
+package com.homehub.core.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -61,6 +61,21 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
+    }
+
+    @ExceptionHandler(InvalidInputException.class)
+    public ResponseEntity<ApiErrorResponse> invalidInput(
+            InvalidInputException ex,
+            HttpServletRequest request
+    ) {
+        ApiErrorResponse body = new ApiErrorResponse(
+                "INVALID_INPUT",
+                ex.getMessage(),
+                OffsetDateTime.now(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
     }
 
     @ExceptionHandler(Exception.class)

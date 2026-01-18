@@ -14,13 +14,16 @@ public class OrganisationMemberService {
         this.organisationMemberRepository = organisationMemberRepository;
     }
 
-    public OrganisationMember createOrganisationMember(Long orgId, Long userId,
-                                                       OrganisationRole role) {
+    public OrganisationMember createOrganisationMember(Long orgId,
+                                                       Long userId,
+                                                       OrganisationRole role,
+                                                       Long invitedByUserId) {
 
         OrganisationMember member = new OrganisationMember();
         member.setOrganisationId(orgId);
         member.setUserId(userId);
         member.setRole(role);
+        member.setInvitedByUserId(invitedByUserId);
 
        return organisationMemberRepository.save(member);
     }

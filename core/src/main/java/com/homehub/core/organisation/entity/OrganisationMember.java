@@ -29,7 +29,14 @@ public class OrganisationMember {
     @Column(nullable = false)
     private OffsetDateTime createdAt = OffsetDateTime.now();
 
-    @Column(name = "invited_by_user_id", nullable = false)
+    @Column(nullable = false)
+    private OffsetDateTime updatedAt = OffsetDateTime.now();
+
+    @Column(name = "invited_by_user_id")
     private Long invitedByUserId;
 
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = OffsetDateTime.now();
+    }
 }

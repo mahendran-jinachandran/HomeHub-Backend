@@ -1,4 +1,4 @@
-package com.homehub.core.login.exception;
+package com.homehub.core.exception;
 
 public class UserAlreadyExistsException extends RuntimeException {
 

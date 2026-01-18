@@ -3,12 +3,11 @@ package com.homehub.core.login.service;
 import com.homehub.core.login.dto.AuthResult;
 import com.homehub.core.login.dto.SignupRequestDTO;
 import com.homehub.core.login.entity.Users;
-import com.homehub.core.login.exception.InvalidCredentialsException;
-import com.homehub.core.login.exception.UserAlreadyExistsException;
+import com.homehub.core.exception.InvalidCredentialsException;
+import com.homehub.core.exception.UserAlreadyExistsException;
 import com.homehub.core.login.mapper.SignupMapper;
 import com.homehub.core.login.repo.LoginRepo;
 import com.homehub.core.security.JwtUtil;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -49,11 +48,11 @@ public class LoginService {
         Users user = findByUserName(userName);
 
         if (user == null) {
-            throw new InvalidCredentialsException();
+            throw new InvalidCredentialsException("The user does not exist");
         }
 
         if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
-            throw new InvalidCredentialsException();
+            throw new InvalidCredentialsException("The password is incorrect");
         }
 
         String token = jwtUtil.generateToken(userName);

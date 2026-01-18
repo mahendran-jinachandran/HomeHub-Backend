@@ -14,7 +14,7 @@ public class Organisation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false, length = 255, unique = true)
     private String name;
 
     @Enumerated(EnumType.STRING)
@@ -29,6 +29,10 @@ public class Organisation {
 
     @Column(nullable = false)
     private OffsetDateTime updatedAt = OffsetDateTime.now();
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private OrganisationStatus status;
 
     @PreUpdate
     public void preUpdate() {

@@ -33,27 +33,39 @@ public class OnboardingService {
 
     @Transactional
     public CreateOrganisationResponse startOrganisation(Long currentUserId, CreateOrganisationDTO req) {
+
         OrganisationType type = req.getType();
-
-        // Create organisation + SUPER_ADMIN membership
         Organisation org = organisationService.createOrganisation(currentUserId, req.getOrganisationName(), type);
-        organisationMemberService.createOrganisationMember(org.getId(),org.getCreatedByUserId(), OrganisationRole.MEMBER);
-        if (type == OrganisationType.SINGLE) {
 
-            // Always create exactly one house and make creator house admin
-            House house = houseService.createSingleHouse(org.getId(), currentUserId, "My House");
-            houseMemberService.createHouseMembers(house.getId(), currentUserId, currentUserId, HouseRole.HOUSE_ADMIN);
-            return new CreateOrganisationResponse(org.getId(), type, house.getId(), null);
+        organisationMemberService.createOrganisationMember(
+                    org.getId(),
+                    org.getCreatedByUserId(),
+                    OrganisationRole.SUPER_ADMIN,
+                null
+        );
+
+        if (type == OrganisationType.SINGLE) {
+           return createSingleHouse(org, currentUserId);
         }
 
-        // COMMUNITY
+        return createMultipleHouses(req, org.getId(), currentUserId);
+    }
+
+    private CreateOrganisationResponse createSingleHouse(Organisation org, Long currentUserId) {
+
+        // Always create exactly one house and make creator house admin
+        House house = houseService.createSingleHouse(org.getId(), currentUserId, "My House");
+        houseMemberService.createHouseMembers(house.getId(), currentUserId, currentUserId, HouseRole.HOUSE_SUPER_ADMIN);
+        return new CreateOrganisationResponse(org.getId(), OrganisationType.SINGLE, house.getId(), null);
+    }
+
+    private CreateOrganisationResponse createMultipleHouses(CreateOrganisationDTO req, Long orgId, Long currentUserId) {
         Integer houseCount = req.getHouseCount();
         if (houseCount != null) {
-            int created = houseService.bulkCreatePlaceholderHouses(org.getId(), currentUserId, houseCount);
-            return new CreateOrganisationResponse(org.getId(), type, null, created);
+            int created = houseService.bulkCreatePlaceholderHouses(orgId, currentUserId, houseCount);
+            return new CreateOrganisationResponse(orgId, OrganisationType.COMMUNITY, null, created);
         }
 
-        // Recommended path: create houses later from "Manage Houses" UI
-        return new CreateOrganisationResponse(org.getId(), type, null, 0);
+        return new CreateOrganisationResponse(orgId, OrganisationType.COMMUNITY, null, 0);
     }
 }

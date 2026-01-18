@@ -17,19 +17,4 @@ public class AuthResult {
         this.userName = userName;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
 }

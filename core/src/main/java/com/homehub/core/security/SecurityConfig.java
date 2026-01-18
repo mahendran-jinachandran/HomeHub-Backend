@@ -33,8 +33,8 @@ public class SecurityConfig {
                     auth.requestMatchers("/home").permitAll();
                     auth.requestMatchers("/signup").permitAll();
                     auth.requestMatchers("/login").permitAll();
-                    auth.requestMatchers("/admin/**").hasRole("ADMIN");
-                    auth.requestMatchers("/api/onboarding/organisation").hasRole("ADMIN");
+                    auth.requestMatchers("/admin/**").hasAnyRole("SUPER_ADMIN","ADMIN");
+                    auth.requestMatchers("/api/onboarding/organisation").hasAnyRole("SUPER_ADMIN","ADMIN");
                     auth.requestMatchers("/user/**").hasAnyRole("ADMIN", "USER");
                     auth.anyRequest().authenticated();
                 })

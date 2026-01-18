@@ -11,6 +11,7 @@ import lombok.Data;
 @Data
 public class CreateOrganisationDTO {
 
+    @NotNull
     private Long userId;
 
     @NotBlank
@@ -20,7 +21,7 @@ public class CreateOrganisationDTO {
     @NotNull
     private OrganisationType type; // SINGLE / COMMUNITY
 
-    @Min(1)
-    @Max(100)
+    @Min(value = 0)
+    @Max(value = 50)
     private Integer houseCount;
 }
